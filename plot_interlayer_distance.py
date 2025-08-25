@@ -170,6 +170,12 @@ def main():
             plt.text(X_POS-OFFSET_X-0.5*SIZE_BAR, -Y_NEG+OFFSET_Y+0.5*WIDTH_Y, s=str(int(SIZE_BAR/10))+" nm", fontsize='large', horizontalalignment='center', zorder=100) # add label
             # show twist angle in top left of plot
             plt.text(LABEL_X, LABEL_Y, s=angle_string, fontsize='x-large', horizontalalignment='left', bbox=dict(boxstyle="square", ec=(0., 0., 0.), fc=(1., 1., 1.)), zorder=100) # add label
+            # if wanted: show unit cell (warning: must not be identical to unit cell of moiré pattern!)
+            if PLOT_MOIRE_CELL:
+                plt.plot([0, cell[0][0]], [0, cell[0][1]], linestyle, ms=width, zorder=100) # a-vector
+                plt.plot([0, cell[1][0]], [0, cell[1][1]], linestyle, ms=width, zorder=100) # b-vector
+                plt.plot([cell[1][0], cell[1][0]+cell[0][0]], [cell[1][1], cell[1][1]+cell[0][1]], linestyle, ms=width, zorder=100) # parallel a-vector
+                plt.plot([cell[0][0], cell[0][0]+cell[1][0]], [cell[0][1], cell[0][1]+cell[1][1]], linestyle, ms=width, zorder=100) # parallel b-vector
         
             ## plot interlayer distance
             # if wanted: add auxiliary points to get consistent (fixed) scale of colorbar (there might be a better way, but this works nicely as well)
@@ -530,4 +536,5 @@ def GetInterlayerDistance(z_UL, z_LL):
 #============#
     
 if __name__ == '__main__':
+
     main()   
