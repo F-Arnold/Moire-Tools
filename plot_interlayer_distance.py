@@ -186,11 +186,14 @@ def main():
             im = ax.scatter(x_sc, y_sc, c=d_local_sc, s=SIZE_PT) # scatter data
             
             ## finalize plot
-            # handle colorbar corresponding to interlayer distance
+            # handle colorbar corresponding to interlayer distance (distinguish fixed vs. dynamic colorbar)
             divider = make_axes_locatable(ax) # create new axis object for colorbar
             cax = divider.append_axes("right", size="4%", pad=0.25) # 2.5% width of plot, distance to plot of pad
             np.arange(round(D_MIN,1), D_MAX+1E-6, 0.1)
-            cb = fig.colorbar(im, cax=cax, ticks=np.arange(round(D_MIN,1), D_MAX+1E-6, 0.1)) # create colorbar
+            if FIXED_COLORBAR:
+               cb = fig.colorbar(im, cax=cax, ticks=np.arange(round(D_MIN,1), D_MAX+1E-6, 0.1)) # create colorbar with fixed range
+            else:
+               cb = fig.colorbar(im, cax=cax) # create colorbar with dynamic range
             cb.set_label(label="d [Å]") # label colorbar
             cb.ax.tick_params() # set tick label size of colorbar
             # set limits
@@ -538,3 +541,4 @@ def GetInterlayerDistance(z_UL, z_LL):
 if __name__ == '__main__':
 
     main()   
+
