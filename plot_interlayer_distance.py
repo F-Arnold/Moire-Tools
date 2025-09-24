@@ -76,8 +76,10 @@ def main():
             if not import_already_done: # results have to be (re)calculated
                 cell, atoms = ReadXsf(filename) # import from xsf 
                 Mo_UL, Mo_LL = SortAtoms(cell, atoms) # sort into upper layer (UL) and lower layer (LL)
-                with open(filename+'.pickle', 'wb') as f:
-                    pickle.dump([Mo_UL, Mo_LL, cell], f) # store in pickle file
+                # store results in pickle file  
+                if USE_PICKLES:
+                   with open(filename+'.pickle', 'wb') as f:
+                       pickle.dump([Mo_UL, Mo_LL, cell], f) # store in pickle file
             
             
             ### calculate interlayer distance for structure
@@ -109,8 +111,9 @@ def main():
                 z_LL_int = DoInterpolation(x_grid, y_grid, x_LL_ext, y_LL_ext, z_LL_ext) # interpolate LL
                 d_local = GetInterlayerDistance(z_UL_int, z_LL_int) # calculate interlayer distance
                 # store results in pickle file
-                with open(filename+'.pickle', 'wb') as f:
-                    pickle.dump([Mo_UL, Mo_LL, cell, x_grid, y_grid, d_local, A_REF], f) # store in pickle file
+                if USE_PICKLES:
+                   with open(filename+'.pickle', 'wb') as f:
+                       pickle.dump([Mo_UL, Mo_LL, cell, x_grid, y_grid, d_local, A_REF], f) # store in pickle file
 
 
             ### perform plotting (not separated into functions)
@@ -541,4 +544,5 @@ def GetInterlayerDistance(z_UL, z_LL):
 if __name__ == '__main__':
 
     main()   
+
 
